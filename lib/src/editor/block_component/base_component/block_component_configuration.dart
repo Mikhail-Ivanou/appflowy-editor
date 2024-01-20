@@ -9,6 +9,7 @@ class BlockComponentConfiguration {
     this.placeholderText = _placeholderText,
     this.textStyle = _textStyle,
     this.placeholderTextStyle = _placeholderTextStyle,
+    this.alreadyScrollable = false,
   });
 
   /// The padding of a block component.
@@ -35,23 +36,32 @@ class BlockComponentConfiguration {
   /// It inherits the style from [textStyle].
   final TextStyle Function(Node node) placeholderTextStyle;
 
+  /// This flag shows if AppFlowyEditor is already wrapped with
+  /// SingleChildScrollView
+  ///
+  /// used when scrollController.shrinkWrap == true
+  final bool alreadyScrollable;
+
   BlockComponentConfiguration copyWith({
     EdgeInsets Function(Node node)? padding,
     TextStyle Function(Node node)? textStyle,
     String Function(Node node)? placeholderText,
     TextStyle Function(Node node)? placeholderTextStyle,
+    bool? alreadyScrollable,
   }) {
     return BlockComponentConfiguration(
       padding: padding ?? this.padding,
       textStyle: textStyle ?? this.textStyle,
       placeholderText: placeholderText ?? this.placeholderText,
       placeholderTextStyle: placeholderTextStyle ?? this.placeholderTextStyle,
+      alreadyScrollable: alreadyScrollable ?? this.alreadyScrollable,
     );
   }
 }
 
 mixin BlockComponentConfigurable<T extends StatefulWidget> on State<T> {
   BlockComponentConfiguration get configuration;
+
   Node get node;
 
   EdgeInsets get padding => configuration.padding(node);

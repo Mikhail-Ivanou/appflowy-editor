@@ -11,6 +11,8 @@ class ScrollServiceWidget extends StatefulWidget {
     required this.editorScrollController,
     required this.child,
   });
+  
+  static double edgeOffset = 150;
 
   final EditorScrollController editorScrollController;
 
@@ -108,7 +110,7 @@ class _ScrollServiceWidgetState extends State<ScrollServiceWidget>
             ), () {
           startAutoScroll(
             endTouchPoint,
-            edgeOffset: 150,
+            edgeOffset: ScrollServiceWidget.edgeOffset,
             duration: Duration.zero,
           );
         });

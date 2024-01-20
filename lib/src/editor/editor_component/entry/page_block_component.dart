@@ -27,8 +27,13 @@ class PageBlockComponentBuilder extends BlockComponentBuilder {
       node: blockComponentContext.node,
       header: blockComponentContext.header,
       footer: blockComponentContext.footer,
+      configuration: configuration,
     );
   }
+
+  PageBlockComponentBuilder({
+    super.configuration = const BlockComponentConfiguration(),
+  });
 }
 
 class PageBlockComponent extends BlockComponentStatelessWidget {
@@ -54,28 +59,31 @@ class PageBlockComponent extends BlockComponentStatelessWidget {
     if (scrollController == null ||
         scrollController.shrinkWrap ||
         !editorState.editable) {
-      return SingleChildScrollView(
-        child: Builder(
-          builder: (context) {
-            final scroller = Scrollable.maybeOf(context);
-            if (scroller != null) {
-              editorState.updateAutoScroller(scroller);
-            }
-            return Column(
-              children: [
-                if (header != null) header!,
-                ...items.map(
-                  (e) => Padding(
-                    padding: editorState.editorStyle.padding,
-                    child: editorState.renderer.build(context, e),
-                  ),
+      final child = Builder(
+        builder: (context) {
+          final scroller = Scrollable.maybeOf(context);
+          if (scroller != null) {
+            editorState.updateAutoScroller(scroller);
+          }
+          return Column(
+            children: [
+              if (header != null) header!,
+              ...items.map(
+                (e) => Padding(
+                  padding: editorState.editorStyle.padding,
+                  child: editorState.renderer.build(context, e),
                 ),
-                if (footer != null) footer!,
-              ],
-            );
-          },
-        ),
+              ),
+              if (footer != null) footer!,
+            ],
+          );
+        },
       );
+      return configuration.alreadyScrollable
+          ? child
+          : SingleChildScrollView(
+              child: child,
+            );
     } else {
       int extentCount = 0;
       if (header != null) extentCount++;
