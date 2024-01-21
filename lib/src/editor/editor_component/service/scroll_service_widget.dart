@@ -11,7 +11,7 @@ class ScrollServiceWidget extends StatefulWidget {
     required this.editorScrollController,
     required this.child,
   });
-  
+
   static double edgeOffset = 150;
 
   final EditorScrollController editorScrollController;

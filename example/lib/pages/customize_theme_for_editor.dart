@@ -102,7 +102,7 @@ class _CustomizeThemeForEditorState extends State<CustomizeThemeForEditor> {
       // todo-list block
       TodoListBlockKeys.type: TodoListBlockComponentBuilder(
         configuration: configuration,
-        iconBuilder: (context, node) {
+        iconBuilder: (context, node, _) {
           final checked = node.attributes[TodoListBlockKeys.checked] as bool;
           return GestureDetector(
             onTap: () => editorState.apply(
@@ -120,7 +120,7 @@ class _CustomizeThemeForEditorState extends State<CustomizeThemeForEditor> {
       // bulleted list block
       BulletedListBlockKeys.type: BulletedListBlockComponentBuilder(
         configuration: configuration,
-        iconBuilder: (context, node) {
+        iconBuilder: (context, node, _) {
           return Container(
             width: 20,
             height: 20,
@@ -136,7 +136,7 @@ class _CustomizeThemeForEditorState extends State<CustomizeThemeForEditor> {
       // quote block
       QuoteBlockKeys.type: QuoteBlockComponentBuilder(
         configuration: configuration,
-        iconBuilder: (context, node) {
+        iconBuilder: (context, node, _) {
           return const EditorSvg(
             width: 20,
             height: 20,

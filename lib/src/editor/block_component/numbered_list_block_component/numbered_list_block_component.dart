@@ -131,7 +131,7 @@ class _NumberedListBlockComponentWidgetState
         textDirection: textDirection,
         children: [
           widget.iconBuilder != null
-              ? widget.iconBuilder!(context, node)
+              ? widget.iconBuilder!(context, node, textDirection)
               : _NumberedListIcon(
                   node: node,
                   textStyle: textStyle,
@@ -229,7 +229,7 @@ class _NumberedListIcon extends StatelessWidget {
   }
 }
 
-extension on Node {
+extension NodeNumberedListExt on Node {
   String get levelString {
     final builder = _NumberedListIconBuilder(node: this);
     final indexInRootLevel = builder.indexInRootLevel;

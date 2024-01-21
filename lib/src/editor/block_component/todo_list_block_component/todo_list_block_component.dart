@@ -45,6 +45,7 @@ class TodoListBlockComponentBuilder extends BlockComponentBuilder {
     this.textStyleBuilder,
     this.iconBuilder,
     this.toggleChildrenTriggers,
+    this.contentPadding,
   });
 
   /// The text style of the todo list block.
@@ -53,6 +54,8 @@ class TodoListBlockComponentBuilder extends BlockComponentBuilder {
   final BlockIconBuilder? iconBuilder;
 
   final List<LogicalKeyboardKey>? toggleChildrenTriggers;
+
+  final EdgeInsets? contentPadding;
 
   @override
   BlockComponentWidget build(BlockComponentContext blockComponentContext) {
@@ -69,6 +72,7 @@ class TodoListBlockComponentBuilder extends BlockComponentBuilder {
         state,
       ),
       toggleChildrenTriggers: toggleChildrenTriggers,
+      contentPadding: contentPadding,
     );
   }
 
@@ -89,11 +93,13 @@ class TodoListBlockComponentWidget extends BlockComponentStatefulWidget {
     this.textStyleBuilder,
     this.iconBuilder,
     this.toggleChildrenTriggers,
+    this.contentPadding,
   });
 
   final TextStyle Function(bool checked)? textStyleBuilder;
   final BlockIconBuilder? iconBuilder;
   final List<LogicalKeyboardKey>? toggleChildrenTriggers;
+  final EdgeInsets? contentPadding;
 
   @override
   State<TodoListBlockComponentWidget> createState() =>
@@ -148,32 +154,35 @@ class _TodoListBlockComponentWidgetState
         textDirection: textDirection,
         children: [
           widget.iconBuilder != null
-              ? widget.iconBuilder!(context, node)
+              ? widget.iconBuilder!(context, node, textDirection)
               : _TodoListIcon(
                   checked: checked,
                   onTap: checkOrUncheck,
                 ),
           Flexible(
-            child: AppFlowyRichText(
-              key: forwardKey,
-              delegate: this,
-              node: widget.node,
-              editorState: editorState,
-              textAlign: alignment?.toTextAlign,
-              placeholderText: placeholderText,
-              textDirection: textDirection,
-              textSpanDecorator: (textSpan) =>
-                  textSpan.updateTextStyle(textStyle).updateTextStyle(
-                        widget.textStyleBuilder?.call(checked) ??
-                            defaultTextStyle(),
-                      ),
-              placeholderTextSpanDecorator: (textSpan) =>
-                  textSpan.updateTextStyle(
-                placeholderTextStyle,
+            child: Padding(
+              padding: widget.contentPadding ?? EdgeInsets.zero,
+              child: AppFlowyRichText(
+                key: forwardKey,
+                delegate: this,
+                node: widget.node,
+                editorState: editorState,
+                textAlign: alignment?.toTextAlign,
+                placeholderText: placeholderText,
+                textDirection: textDirection,
+                textSpanDecorator: (textSpan) =>
+                    textSpan.updateTextStyle(textStyle).updateTextStyle(
+                          widget.textStyleBuilder?.call(checked) ??
+                              defaultTextStyle(),
+                        ),
+                placeholderTextSpanDecorator: (textSpan) =>
+                    textSpan.updateTextStyle(
+                  placeholderTextStyle,
+                ),
+                cursorColor: editorState.editorStyle.cursorColor,
+                selectionColor: editorState.editorStyle.selectionColor,
+                cursorWidth: editorState.editorStyle.cursorWidth,
               ),
-              cursorColor: editorState.editorStyle.cursorColor,
-              selectionColor: editorState.editorStyle.selectionColor,
-              cursorWidth: editorState.editorStyle.cursorWidth,
             ),
           ),
         ],

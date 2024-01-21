@@ -125,7 +125,7 @@ class _BulletedListBlockComponentWidgetState
         textDirection: textDirection,
         children: [
           widget.iconBuilder != null
-              ? widget.iconBuilder!(context, node)
+              ? widget.iconBuilder!(context, node, textDirection)
               : _BulletedListIcon(
                   node: widget.node,
                   textStyle: textStyle,
