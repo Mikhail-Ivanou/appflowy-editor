@@ -122,7 +122,7 @@ class _QuoteBlockComponentWidgetState extends State<QuoteBlockComponentWidget>
           textDirection: textDirection,
           children: [
             widget.iconBuilder != null
-                ? widget.iconBuilder!(context, node)
+                ? widget.iconBuilder!(context, node, textDirection)
                 : const _QuoteIcon(),
             Flexible(
               child: AppFlowyRichText(
