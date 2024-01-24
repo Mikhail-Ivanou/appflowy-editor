@@ -13,6 +13,7 @@ class ScrollServiceWidget extends StatefulWidget {
   });
 
   static double edgeOffset = 150;
+  static int mobileScrollerDelay = 250;
 
   final EditorScrollController editorScrollController;
 
@@ -26,6 +27,7 @@ class _ScrollServiceWidgetState extends State<ScrollServiceWidget>
     implements AppFlowyScrollService {
   final _forwardKey =
       GlobalKey(debugLabel: 'forward_to_platform_scroll_service');
+
   AppFlowyScrollService get forward =>
       _forwardKey.currentState as AppFlowyScrollService;
 
@@ -103,8 +105,9 @@ class _ScrollServiceWidgetState extends State<ScrollServiceWidget>
         // workaround: wait for the soft keyboard to show up
         return Future.delayed(
             Duration(
-              milliseconds:
-                  KeyboardHeightObserver.currentKeyboardHeight == 0 ? 250 : 0,
+              milliseconds: KeyboardHeightObserver.currentKeyboardHeight == 0
+                  ? ScrollServiceWidget.mobileScrollerDelay
+                  : 0,
             ), () {
           startAutoScroll(
             endTouchPoint,
