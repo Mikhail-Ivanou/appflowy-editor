@@ -223,7 +223,7 @@ class _DesktopSelectionServiceWidgetState
       (element) => element.canTap?.call(details) ?? true,
     );
     if (!canTap) {
-      return updateSelection(null);
+      return;
     }
 
     final offset = details.globalPosition;
