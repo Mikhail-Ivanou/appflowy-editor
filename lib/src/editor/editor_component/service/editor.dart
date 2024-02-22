@@ -32,6 +32,7 @@ class AppFlowyEditor extends StatefulWidget {
     this.allowLongTapForIos = false,
     this.editorScrollController,
     this.editorStyle = const EditorStyle.desktop(),
+    this.padding,
     this.header,
     this.footer,
     this.focusNode,
@@ -140,6 +141,11 @@ class AppFlowyEditor extends StatefulWidget {
   final Selection? focusedSelection;
 
   final FocusNode? focusNode;
+
+  /// Wrap AppFlowy Editor main widget with padding.
+  ///
+  /// Now you can adjust padding, so selectors are not trimmed.
+  final EdgeInsets? padding;
 
   /// AppFlowy Editor use column as the root widget.
   ///
@@ -250,6 +256,11 @@ class _AppFlowyEditorState extends State<AppFlowyEditor> {
       header: widget.header,
       footer: widget.footer,
     );
+
+    final padding = widget.padding;
+    if (padding != null) {
+      child = Padding(padding: padding, child: child);
+    }
 
     if (!widget.editable) {
       return child;
