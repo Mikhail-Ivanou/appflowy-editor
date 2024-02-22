@@ -29,6 +29,7 @@ class AppFlowyEditor extends StatefulWidget {
     this.focusedSelection,
     this.shrinkWrap = false,
     this.showMagnifier = true,
+    this.allowLongTapForIos = false,
     this.editorScrollController,
     this.editorStyle = const EditorStyle.desktop(),
     this.header,
@@ -157,6 +158,7 @@ class AppFlowyEditor extends StatefulWidget {
   ///
   /// only works on iOS or Android.
   final bool showMagnifier;
+  final bool allowLongTapForIos;
 
   /// {@macro flutter.widgets.editableText.contentInsertionConfiguration}
   final ContentInsertionConfiguration? contentInsertionConfiguration;
@@ -258,6 +260,7 @@ class _AppFlowyEditorState extends State<AppFlowyEditor> {
       cursorColor: widget.editorStyle.cursorColor,
       selectionColor: widget.editorStyle.selectionColor,
       showMagnifier: widget.showMagnifier,
+      allowLongTapForIos: widget.allowLongTapForIos,
       contextMenuItems: widget.contextMenuItems,
       child: KeyboardServiceWidget(
         key: editorState.service.keyboardServiceKey,

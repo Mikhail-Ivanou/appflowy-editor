@@ -10,6 +10,7 @@ class SelectionServiceWidget extends StatefulWidget {
     this.cursorColor = const Color(0xFF00BCF0),
     this.selectionColor = const Color.fromARGB(53, 111, 201, 231),
     this.showMagnifier = true,
+    this.allowLongTapForIos = false,
     required this.contextMenuItems,
     required this.child,
   });
@@ -23,6 +24,7 @@ class SelectionServiceWidget extends StatefulWidget {
   ///
   /// only works on iOS or Android.
   final bool showMagnifier;
+  final bool allowLongTapForIos;
 
   @override
   State<SelectionServiceWidget> createState() => _SelectionServiceWidgetState();
@@ -54,6 +56,7 @@ class _SelectionServiceWidgetState extends State<SelectionServiceWidget>
       key: forwardKey,
       cursorColor: widget.cursorColor,
       selectionColor: widget.selectionColor,
+      allowLongTapForIos: widget.allowLongTapForIos,
       showMagnifier: widget.showMagnifier,
       magnifierSize: editorState.editorStyle.magnifierSize,
       child: widget.child,

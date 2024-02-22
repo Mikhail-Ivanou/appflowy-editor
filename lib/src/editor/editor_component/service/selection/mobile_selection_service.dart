@@ -41,6 +41,7 @@ class MobileSelectionServiceWidget extends StatefulWidget {
     this.selectionColor = const Color.fromARGB(53, 111, 201, 231),
     this.showMagnifier = true,
     this.magnifierSize = const Size(72, 48),
+    this.allowLongTapForIos = false,
     required this.child,
   });
 
@@ -52,6 +53,7 @@ class MobileSelectionServiceWidget extends StatefulWidget {
   ///
   /// only works on iOS or Android.
   final bool showMagnifier;
+  final bool allowLongTapForIos;
 
   final Size magnifierSize;
 
@@ -545,7 +547,7 @@ class _MobileSelectionServiceWidgetState
   }
 
   void _onLongPressStart(LongPressStartDetails details) {
-    if (!Platform.isAndroid) {
+    if (!Platform.isAndroid && !(Platform.isIOS && widget.allowLongTapForIos)) {
       return;
     }
 
