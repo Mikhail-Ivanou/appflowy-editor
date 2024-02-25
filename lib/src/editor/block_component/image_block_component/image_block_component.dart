@@ -57,6 +57,7 @@ class ImageBlockComponentBuilder extends BlockComponentBuilder {
     super.configuration,
     this.showMenu = false,
     this.menuBuilder,
+    this.remoteImageBuilder,
   });
 
   /// Whether to show the menu of this block component.
@@ -64,6 +65,8 @@ class ImageBlockComponentBuilder extends BlockComponentBuilder {
 
   ///
   final ImageBlockComponentMenuBuilder? menuBuilder;
+
+  final Widget Function(String src)? remoteImageBuilder;
 
   @override
   BlockComponentWidget build(BlockComponentContext blockComponentContext) {
@@ -79,6 +82,7 @@ class ImageBlockComponentBuilder extends BlockComponentBuilder {
       ),
       showMenu: showMenu,
       menuBuilder: menuBuilder,
+      remoteImageBuilder: remoteImageBuilder,
     );
   }
 
@@ -95,12 +99,15 @@ class ImageBlockComponentWidget extends BlockComponentStatefulWidget {
     super.configuration = const BlockComponentConfiguration(),
     this.showMenu = false,
     this.menuBuilder,
+    this.remoteImageBuilder,
   });
 
   /// Whether to show the menu of this block component.
   final bool showMenu;
 
   final ImageBlockComponentMenuBuilder? menuBuilder;
+
+  final Widget Function(String src)? remoteImageBuilder;
 
   @override
   State<ImageBlockComponentWidget> createState() =>
@@ -150,6 +157,7 @@ class ImageBlockComponentWidgetState extends State<ImageBlockComponentWidget>
           });
         editorState.apply(transaction);
       },
+      remoteImageBuilder: widget.remoteImageBuilder,
     );
 
     child = Padding(

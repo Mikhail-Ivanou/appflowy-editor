@@ -16,6 +16,7 @@ class ResizableImage extends StatefulWidget {
     required this.width,
     required this.src,
     this.height,
+    this.remoteImageBuilder,
   });
 
   final String src;
@@ -25,6 +26,7 @@ class ResizableImage extends StatefulWidget {
   final bool editable;
 
   final void Function(double width) onResize;
+  final Widget Function(String src)? remoteImageBuilder;
 
   @override
   State<ResizableImage> createState() => _ResizableImageState();
@@ -38,7 +40,7 @@ class _ResizableImageState extends State<ResizableImage> {
   double initialOffset = 0;
   double moveDistance = 0;
 
-  Image? _cacheImage;
+  Widget? _cacheImage;
 
   @visibleForTesting
   bool onFocus = false;
@@ -81,20 +83,21 @@ class _ResizableImageState extends State<ResizableImage> {
       child = _cacheImage!;
     } else if (isURL(src)) {
       // load network image
-      _cacheImage ??= Image.network(
-        widget.src,
-        width: widget.width,
-        gaplessPlayback: true,
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null ||
-              loadingProgress.cumulativeBytesLoaded ==
-                  loadingProgress.expectedTotalBytes) {
-            return child;
-          }
-          return _buildLoading(context);
-        },
-        errorBuilder: (context, error, stackTrace) => _buildError(context),
-      );
+      _cacheImage ??= widget.remoteImageBuilder?.call(src) ??
+          Image.network(
+            widget.src,
+            width: widget.width,
+            gaplessPlayback: true,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null ||
+                  loadingProgress.cumulativeBytesLoaded ==
+                      loadingProgress.expectedTotalBytes) {
+                return child;
+              }
+              return _buildLoading(context);
+            },
+            errorBuilder: (context, error, stackTrace) => _buildError(context),
+          );
       child = _cacheImage!;
     } else {
       // load local file
