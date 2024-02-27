@@ -27,6 +27,9 @@ class MobileFloatingToolbar extends StatefulWidget {
     required this.toolbarBuilder,
   });
 
+  static Duration defaultOffsetDelay = const Duration(milliseconds: 400);
+  static bool shouldResetOnScroll = true;
+
   final EditorState editorState;
   final EditorScrollController editorScrollController;
   final Widget child;
@@ -47,6 +50,7 @@ class _MobileFloatingToolbarState extends State<MobileFloatingToolbar>
   EditorState get editorState => widget.editorState;
 
   bool _isToolbarVisible = false;
+
   // use for skipping the first build for the toolbar when the selection is collapsed.
   Selection? prevSelection;
 
@@ -63,7 +67,13 @@ class _MobileFloatingToolbarState extends State<MobileFloatingToolbar>
     );
     _onTapSelectionAreaSubscription =
         appFlowyEditorOnTapSelectionArea.stream.listen((event) {
-      _isToolbarVisible ? _clear() : _showAfterDelay();
+      _isToolbarVisible
+          ? _clear()
+          : _showAfterDelay(
+              MobileFloatingToolbar.shouldResetOnScroll
+                  ? Duration.zero
+                  : MobileFloatingToolbar.defaultOffsetDelay,
+            );
     });
   }
 
@@ -115,7 +125,7 @@ class _MobileFloatingToolbarState extends State<MobileFloatingToolbar>
           editorState.selectionExtraInfo?[
                   selectionExtraInfoDisableFloatingToolbar] !=
               true) {
-        _showAfterDelay(const Duration(milliseconds: 400));
+        _showAfterDelay(MobileFloatingToolbar.defaultOffsetDelay);
       }
       prevSelection = selection;
     } else {
@@ -132,7 +142,7 @@ class _MobileFloatingToolbarState extends State<MobileFloatingToolbar>
               .selectionExtraInfo?[selectionExtraInfoDisableFloatingToolbar] !=
           true) {
         // uses debounce to avoid the computing the rects too frequently.
-        _showAfterDelay(const Duration(milliseconds: 400));
+        _showAfterDelay(MobileFloatingToolbar.defaultOffsetDelay);
       }
     }
   }
@@ -142,8 +152,11 @@ class _MobileFloatingToolbarState extends State<MobileFloatingToolbar>
   }
 
   final String _debounceKey = 'show the toolbar';
+
   void _clear() {
-    Debounce.cancel(_debounceKey);
+    if (MobileFloatingToolbar.shouldResetOnScroll) {
+      Debounce.cancel(_debounceKey);
+    }
 
     _toolbarContainer?.remove();
     _toolbarContainer = null;
