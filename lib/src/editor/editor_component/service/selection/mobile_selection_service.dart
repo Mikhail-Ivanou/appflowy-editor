@@ -42,6 +42,7 @@ class MobileSelectionServiceWidget extends StatefulWidget {
     this.showMagnifier = true,
     this.magnifierSize = const Size(72, 48),
     this.allowLongTapForIos = false,
+    this.isCollapsedHandleVisible = true,
     required this.child,
   });
 
@@ -54,6 +55,7 @@ class MobileSelectionServiceWidget extends StatefulWidget {
   /// only works on iOS or Android.
   final bool showMagnifier;
   final bool allowLongTapForIos;
+  final bool isCollapsedHandleVisible;
 
   final Size magnifierSize;
 
@@ -192,7 +194,9 @@ class _MobileSelectionServiceWidgetState
         return MobileCollapsedHandle(
           layerLink: node.layerLink,
           rect: rect,
-          handleColor: editorStyle.dragHandleColor,
+          handleColor: widget.isCollapsedHandleVisible
+              ? editorStyle.dragHandleColor
+              : Colors.transparent,
           handleWidth: editorStyle.mobileDragHandleWidth,
           handleBallWidth: editorStyle.mobileDragHandleBallSize.width,
           enableHapticFeedbackOnAndroid:

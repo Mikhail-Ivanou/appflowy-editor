@@ -30,6 +30,7 @@ class AppFlowyEditor extends StatefulWidget {
     this.shrinkWrap = false,
     this.showMagnifier = true,
     this.allowLongTapForIos = false,
+    this.isCollapsedHandleVisible = true,
     this.editorScrollController,
     this.editorStyle = const EditorStyle.desktop(),
     this.padding,
@@ -164,7 +165,14 @@ class AppFlowyEditor extends StatefulWidget {
   ///
   /// only works on iOS or Android.
   final bool showMagnifier;
+
+  ///additional custom config
+  ///selects text on long tap
   final bool allowLongTapForIos;
+
+  ///draws collapsed handle transparently,
+  ///so you can drag cursor, but no handle is visible
+  final bool isCollapsedHandleVisible;
 
   /// {@macro flutter.widgets.editableText.contentInsertionConfiguration}
   final ContentInsertionConfiguration? contentInsertionConfiguration;
@@ -272,6 +280,7 @@ class _AppFlowyEditorState extends State<AppFlowyEditor> {
       selectionColor: widget.editorStyle.selectionColor,
       showMagnifier: widget.showMagnifier,
       allowLongTapForIos: widget.allowLongTapForIos,
+      isCollapsedHandleVisible: widget.isCollapsedHandleVisible,
       contextMenuItems: widget.contextMenuItems,
       child: KeyboardServiceWidget(
         key: editorState.service.keyboardServiceKey,
