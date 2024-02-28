@@ -13,6 +13,7 @@ class MobileSelectionHandle extends StatelessWidget {
     this.handleBallWidth = 6.0,
     this.handleWidth = 2.0,
     this.enableHapticFeedbackOnAndroid = true,
+    this.extraHandlePadding = 0,
   });
 
   final Rect rect;
@@ -22,6 +23,7 @@ class MobileSelectionHandle extends StatelessWidget {
   final double handleWidth;
   final double handleBallWidth;
   final bool enableHapticFeedbackOnAndroid;
+  final double extraHandlePadding;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +67,7 @@ class MobileSelectionHandle extends StatelessWidget {
           handleHeight: adjustedRect.height,
           handleWidth: handleWidth,
           handleBallWidth: handleBallWidth,
+          extraHandlePadding: extraHandlePadding,
         ),
       ),
     );

@@ -66,6 +66,7 @@ abstract class _IDragHandle extends StatelessWidget {
     this.handleWidth = 2.0,
     this.handleBallWidth = 6.0,
     this.debugPaintSizeEnabled = false,
+    this.extraHandlePadding = 0,
     required this.handleType,
   });
 
@@ -75,6 +76,7 @@ abstract class _IDragHandle extends StatelessWidget {
   final double handleBallWidth;
   final HandleType handleType;
   final bool debugPaintSizeEnabled;
+  final double extraHandlePadding;
 }
 
 class DragHandle extends _IDragHandle {
@@ -85,6 +87,7 @@ class DragHandle extends _IDragHandle {
     super.handleWidth,
     super.handleBallWidth,
     required super.handleType,
+    super.extraHandlePadding,
     super.debugPaintSizeEnabled,
   });
 
@@ -99,6 +102,7 @@ class DragHandle extends _IDragHandle {
         handleWidth: handleWidth,
         handleBallWidth: handleBallWidth,
         handleType: handleType,
+        extraHandlePadding: extraHandlePadding,
         debugPaintSizeEnabled: debugPaintSizeEnabled,
       );
     } else if (Platform.isAndroid) {
@@ -108,6 +112,7 @@ class DragHandle extends _IDragHandle {
         handleWidth: handleWidth,
         handleBallWidth: handleBallWidth,
         handleType: handleType,
+        extraHandlePadding: extraHandlePadding,
         debugPaintSizeEnabled: debugPaintSizeEnabled,
       );
     } else {
@@ -123,17 +128,20 @@ class DragHandle extends _IDragHandle {
 
     if (handleType != HandleType.none && handleType != HandleType.collapsed) {
       final offset = Platform.isIOS ? -handleWidth : 0.0;
+      final vOffset = Platform.isIOS ? -extraHandlePadding : 0.0;
       child = Stack(
         clipBehavior: Clip.none,
         children: [
           if (handleType == HandleType.left)
             Positioned(
-              left: offset,
+              left: offset - extraHandlePadding,
+              top: vOffset,
               child: child,
             ),
           if (handleType == HandleType.right)
             Positioned(
-              right: offset,
+              right: offset - extraHandlePadding,
+              top: vOffset,
               child: child,
             ),
         ],
@@ -152,6 +160,7 @@ class _IOSDragHandle extends _IDragHandle {
     super.handleBallWidth,
     required super.handleType,
     super.debugPaintSizeEnabled,
+    super.extraHandlePadding,
   });
 
   @override
@@ -235,7 +244,10 @@ class _IOSDragHandle extends _IDragHandle {
           handleType.dragMode,
         );
       },
-      child: child,
+      child: Padding(
+        padding: EdgeInsets.all(extraHandlePadding),
+        child: child,
+      ),
     );
 
     return child;
@@ -251,6 +263,7 @@ class _AndroidDragHandle extends _IDragHandle {
     super.handleBallWidth,
     required super.handleType,
     super.debugPaintSizeEnabled,
+    super.extraHandlePadding,
   });
 
   Selection? selection;
@@ -344,7 +357,14 @@ class _AndroidDragHandle extends _IDragHandle {
           handleType.dragMode,
         );
       },
-      child: child,
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: extraHandlePadding,
+          right: extraHandlePadding,
+          left: extraHandlePadding,
+        ),
+        child: child,
+      ),
     );
 
     return child;

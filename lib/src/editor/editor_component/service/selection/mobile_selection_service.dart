@@ -43,6 +43,7 @@ class MobileSelectionServiceWidget extends StatefulWidget {
     this.magnifierSize = const Size(72, 48),
     this.allowLongTapForIos = false,
     this.isCollapsedHandleVisible = true,
+    this.extraHandlePadding = 0,
     required this.child,
   });
 
@@ -56,6 +57,7 @@ class MobileSelectionServiceWidget extends StatefulWidget {
   final bool showMagnifier;
   final bool allowLongTapForIos;
   final bool isCollapsedHandleVisible;
+  final double extraHandlePadding;
 
   final Size magnifierSize;
 
@@ -279,6 +281,7 @@ class _MobileSelectionServiceWidgetState
           handleBallWidth: editorStyle.mobileDragHandleBallSize.width,
           enableHapticFeedbackOnAndroid:
               editorStyle.enableHapticFeedbackOnAndroid,
+          extraHandlePadding: widget.extraHandlePadding,
         );
       },
     );

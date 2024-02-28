@@ -12,6 +12,7 @@ class SelectionServiceWidget extends StatefulWidget {
     this.showMagnifier = true,
     this.allowLongTapForIos = false,
     this.isCollapsedHandleVisible = true,
+    this.extraHandlePadding = 0,
     required this.contextMenuItems,
     required this.child,
   });
@@ -27,6 +28,7 @@ class SelectionServiceWidget extends StatefulWidget {
   final bool showMagnifier;
   final bool allowLongTapForIos;
   final bool isCollapsedHandleVisible;
+  final double extraHandlePadding;
 
   @override
   State<SelectionServiceWidget> createState() => _SelectionServiceWidgetState();
@@ -62,6 +64,7 @@ class _SelectionServiceWidgetState extends State<SelectionServiceWidget>
       isCollapsedHandleVisible: widget.isCollapsedHandleVisible,
       showMagnifier: widget.showMagnifier,
       magnifierSize: editorState.editorStyle.magnifierSize,
+      extraHandlePadding: widget.extraHandlePadding,
       child: widget.child,
     );
   }

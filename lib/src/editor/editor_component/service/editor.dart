@@ -30,6 +30,7 @@ class AppFlowyEditor extends StatefulWidget {
     this.shrinkWrap = false,
     this.showMagnifier = true,
     this.allowLongTapForIos = false,
+    this.extraHandlePadding = 0,
     this.isCollapsedHandleVisible = true,
     this.editorScrollController,
     this.editorStyle = const EditorStyle.desktop(),
@@ -173,6 +174,7 @@ class AppFlowyEditor extends StatefulWidget {
   ///draws collapsed handle transparently,
   ///so you can drag cursor, but no handle is visible
   final bool isCollapsedHandleVisible;
+  final double extraHandlePadding;
 
   /// {@macro flutter.widgets.editableText.contentInsertionConfiguration}
   final ContentInsertionConfiguration? contentInsertionConfiguration;
